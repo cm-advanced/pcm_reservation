@@ -1,0 +1,13 @@
+name = Open Signal PCM Reservation
+
+description = "Helper functions for PCM specific reservation stuff"
+core = 7.x
+package = Open Signal PCM Community Media Advanced
+version = 7.x-1.0
+project = "pcm_reservation"
+project_status_url = https://github.com/cm-advanced/pcm_reservation
+
+files[] = pcm_reservation.module
+
+
+

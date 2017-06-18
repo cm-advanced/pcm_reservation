@@ -1,0 +1,38 @@
+<?php
+/**                                                                            
+ * Implements hook_form_FORM_ID_alter().   
+ */
+function pcm_reservation_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id == 'reservations_reservation_node_form') {
+    
+    $project_widget =
+      &$form['og_group_ref'][LANGUAGE_NONE][0];
+
+    $default_sub_field =  &$project_widget['default'][0]['target_id'];
+    $admin_sub_field =  &$project_widget['admin'][0]['target_id'];
+
+    if (user_access('manage reservations')) {
+      $admin_sub_field['#default_value'] =
+        $default_sub_field['#default_value'] ?
+        $default_sub_field['#default_value'] :
+        $admin_sub_field['#default_value'];
+
+      $admin_sub_field['#description'] =
+        'Enter the Project title and Project ID like this - ProjectName '.
+	'(project_id)';
+      $admin_sub_field['#title'] = "";
+      $admin_sub_field['#autocomplete_path']  =
+        'project/autocomplete/single/og_node1/node/reservations_reservation';
+
+      unset($project_widget['default']);
+      //$default_sub_field['#type'] = "hidden";
+      //$default_sub_field['#default_value'] = array();
+    }
+    else {
+      $html = '&nbsp';
+      //adding this prefix because other wise the field set jumps to right
+      $form['og_node1']['#prefix'] = $html;
+      unset($admin_sub_field);
+    }
+  }
+}
